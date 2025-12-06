@@ -1,0 +1,23 @@
+baseURL = 'https://venkatraman.dev'
+languageCode = 'en-us'
+title = 'Globetrottaux'
+theme = "hugo-theme-console"
+
+[[module.imports]]
+  path = "github.com/mrmierzejewski/hugo-theme-console"
+
+[params]
+  description = "Your site description"
+  animateStyle = "animate-fade-up" # Animation style for content
+
+[[params.navlinks]]
+  name = "About"
+  url = "/about/"
+
+[[params.navlinks]]
+  name = "Posts"
+  url = "/posts/"
+
+[[params.navlinks]]
+  name = "Photos"
+  url = "/photos/"

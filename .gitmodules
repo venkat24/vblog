@@ -1,0 +1,6 @@
+[submodule "hugo-theme-conso"]
+	path = hugo-theme-conso
+	url = https://github.com/mrmierzejewski/hugo-theme-console.git
+[submodule "hugo-theme-console"]
+	path = hugo-theme-console
+	url = https://github.com/mrmierzejewski/hugo-theme-console.git
