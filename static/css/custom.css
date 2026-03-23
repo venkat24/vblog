@@ -1,12 +1,14 @@
 .image-grid {
-    display: block;
-    columns: 3;
-    column-gap: 1em;
+    column-count: 3;
+    column-gap: 6px;
+    line-height: 0;
+    height: auto;
+    overflow: hidden;
 }
 
 .image-grid a {
     display: block;
-    margin-bottom: 1em;
+    margin-bottom: 6px;
     break-inside: avoid;
 }
 
@@ -14,16 +16,17 @@
     display: block;
     width: 100%;
     height: auto;
+    border-radius: 2px;
 }
 
 @media (max-width: 768px) {
     .image-grid {
-        columns: 2;
+        column-count: 2;
     }
 }
 
 @media (max-width: 480px) {
     .image-grid {
-        columns: 1;
+        column-count: 1;
     }
 }

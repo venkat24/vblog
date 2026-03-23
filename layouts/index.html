@@ -26,29 +26,30 @@ Console is a minimal, responsive and light theme for Hugo inspired by Linux cons
 <h1>Latest photos</h1>
 
 <div class="image-grid">
-{{ $featured := slice }}
-{{ $albums := .Site.GetPage "/albums" }}
-{{ range $albums.Sections }}
-    {{ range .Pages }}
-        {{ if and (isset .Params "image") .Params.image .Params.featured }}
-            {{ $featured = $featured | append . }}
-        {{ end }}
-    {{ end }}
-{{ end }}
-{{ range shuffle $featured }}
-    <a href="{{ .Permalink }}" title="{{ .Title }}">
-    {{ $image := .Page.Resources.GetMatch .Params.image }}
-    {{ with $image }}
-        {{ $small := .Resize "400x" }}
-        {{ $medium := .Resize "800x" }}
-        {{ $large := .Resize "1200x" }}
-        <img src="{{ $medium.RelPermalink }}"
-             srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
-             sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
-             alt="{{ .Title }}" class="img-responsive">
-    {{ end }}
-    </a>
-{{ end }}
+{{- $featured := slice -}}
+{{- $albums := .Site.GetPage "/albums" -}}
+{{- range $albums.Sections -}}
+    {{- range .Pages -}}
+        {{- if and (isset .Params "image") .Params.image .Params.featured -}}
+            {{- $featured = $featured | append . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- range shuffle $featured -}}
+    {{- $page := . -}}
+    {{- $image := .Page.Resources.GetMatch .Params.image -}}
+    {{- with $image -}}
+        {{- $small := .Resize "400x" -}}
+        {{- $medium := .Resize "800x" -}}
+        {{- $large := .Resize "1200x" }}
+        <a href="{{ $page.Permalink }}" title="{{ $page.Title }}">
+            <img src="{{ $medium.RelPermalink }}"
+                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
+                 sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                 alt="{{ $page.Title }}" class="img-responsive">
+        </a>
+    {{- end -}}
+{{- end -}}
 </div>
 
 {{ end }}
