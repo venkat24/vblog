@@ -1,0 +1,50 @@
+{{ define "main" }}
+
+<h1>About</h1>
+
+<p>
+Console is a minimal, responsive and light theme for Hugo inspired by Linux console.  <a href="about/">(more)</a>
+</p>
+<br/>
+
+<h1>Latest posts</h1>
+
+<div class="posts-list">
+{{ with .Site.GetPage "/posts" }}
+    {{ range first 3 (sort .Pages "Date" "desc" (where .Pages ".Params.private" "!=" true))}}
+        <div class="post">
+            <p>
+                <div class="date">{{ .Date | time.Format ":date_medium" }}</div>
+                <h1><a href="{{ .Permalink }}" title="{{ .Title }}">{{ .Title }}</a></h1>
+                {{ .Summary }}
+            </p>
+        </div>
+    {{ end }}
+{{ end }}
+</div>
+
+<h1>Latest photos</h1>
+
+<div class="image-grid">
+{{ $albums := .Site.GetPage "/albums" }}
+{{ range $albums.Sections }}
+    {{ range .Pages }}
+        {{ if and (isset .Params "image") .Params.image .Params.featured }}
+            <a href="{{ .Permalink }}" title="{{ .Title }}">
+            {{ $image := .Page.Resources.GetMatch .Params.image }}
+            {{ with $image }}
+                {{ $small := .Resize "400x" }}
+                {{ $medium := .Resize "800x" }}
+                {{ $large := .Resize "1200x" }}
+                <img src="{{ $medium.RelPermalink }}"
+                     srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
+                     sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                     alt="{{ .Title }}" class="img-responsive">
+            {{ end }}
+            </a>
+        {{ end }}
+    {{ end }}
+{{ end }}
+</div>
+
+{{ end }}

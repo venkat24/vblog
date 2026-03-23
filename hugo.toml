@@ -19,5 +19,5 @@ theme = "hugo-theme-console"
   url = "/posts/"
 
 [[params.navlinks]]
-  name = "Photos"
-  url = "/photos/"
+  name = "Albums"
+  url = "/albums/"

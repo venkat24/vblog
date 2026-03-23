@@ -1,0 +1,29 @@
+.image-grid {
+    display: block;
+    columns: 3;
+    column-gap: 1em;
+}
+
+.image-grid a {
+    display: block;
+    margin-bottom: 1em;
+    break-inside: avoid;
+}
+
+.image-grid img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .image-grid {
+        columns: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-grid {
+        columns: 1;
+    }
+}

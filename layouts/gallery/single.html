@@ -1,0 +1,20 @@
+{{ define "main" }}
+<h1>{{ .Page.Title }}</h1>
+
+{{ if and (isset .Params "image") .Params.image }}
+    {{ $image := .Page.Resources.GetMatch .Params.image }}
+    {{ with $image }}
+        {{ $medium := .Resize "1000x" }}
+        {{ $large := .Resize "1600x" }}
+        {{ $full := .Resize "2400x" }}
+        <img src="{{ $large.RelPermalink }}"
+             srcset="{{ $medium.RelPermalink }} 1000w, {{ $large.RelPermalink }} 1600w, {{ $full.RelPermalink }} 2400w"
+             sizes="(max-width: 1000px) 1000px, (max-width: 1600px) 1600px, 2400px"
+             alt="{{ .Title }}" class="img-responsive gallery-image">
+    {{end}}
+{{ end }}
+
+{{ .Content }}
+{{ template "_internal/disqus.html" . }}
+
+{{ end }}

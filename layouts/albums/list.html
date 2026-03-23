@@ -1,0 +1,73 @@
+{{ define "main" }}
+<h1>{{ .Page.Title }}</h1>
+{{ .Content }}
+
+{{ if .Sections }}
+{{/* Top-level albums list */}}
+<div class="image-grid">
+    {{ range .Sections }}
+        {{ $album := . }}
+        {{ $coverFound := false }}
+        <a href="{{ .Permalink }}" title="{{ .Title }}">
+        {{ with .Params.image }}
+            {{/* image param is like "DSCF6157/DSCF6157.jpg" — extract the page dir and filename */}}
+            {{ $parts := split . "/" }}
+            {{ if ge (len $parts) 2 }}
+                {{ $pageDir := index $parts 0 }}
+                {{ $fileName := index $parts 1 }}
+                {{ range $album.Pages }}
+                    {{ if eq .File.ContentBaseName $pageDir }}
+                        {{ $image := .Page.Resources.GetMatch $fileName }}
+                        {{ with $image }}
+                            {{ $small := .Resize "400x" }}
+                            {{ $medium := .Resize "800x" }}
+                            <img src="{{ $medium.RelPermalink }}"
+                                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w"
+                                 sizes="(max-width: 400px) 400px, 800px"
+                                 alt="{{ $album.Title }}" class="img-responsive">
+                            {{ $coverFound = true }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        {{ if not $coverFound }}
+            {{ range first 1 .Pages }}
+                {{ $image := .Page.Resources.GetMatch .Params.image }}
+                {{ with $image }}
+                    {{ $small := .Resize "400x" }}
+                    {{ $medium := .Resize "800x" }}
+                    <img src="{{ $medium.RelPermalink }}"
+                         srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w"
+                         sizes="(max-width: 400px) 400px, 800px"
+                         alt="{{ .Title }}" class="img-responsive">
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        <div class="album-title">{{ .Title }}</div>
+        </a>
+    {{ end }}
+</div>
+{{ else }}
+{{/* Individual album — show all photos in masonry grid */}}
+<div class="image-grid">
+    {{ range .Pages }}
+        {{ if and (isset .Params "image") .Params.image }}
+            <a href="{{ .Permalink }}" title="{{ .Title }}">
+            {{ $image := .Page.Resources.GetMatch .Params.image }}
+            {{ with $image }}
+                {{ $small := .Resize "400x" }}
+                {{ $medium := .Resize "800x" }}
+                {{ $large := .Resize "1200x" }}
+                <img src="{{ $medium.RelPermalink }}"
+                     srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
+                     sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                     alt="{{ .Title }}" class="img-responsive">
+            {{ end }}
+            </a>
+        {{ end }}
+    {{ end }}
+</div>
+{{ end }}
+
+{{ end }}
