@@ -35,7 +35,7 @@
         <span class="photo-nav-btn photo-nav-prev photo-nav-disabled">&larr; Prev</span>
     {{ end }}
 
-    <a href="{{ $parent.Permalink }}" class="photo-nav-btn photo-nav-center">Back to Album</a>
+    <a href="{{ $parent.Permalink }}" class="photo-nav-btn photo-nav-center">Go to Album</a>
 
     {{ if lt (add $currentIndex 1) (len $pages) }}
         {{ $next := index $pages (add $currentIndex 1) }}

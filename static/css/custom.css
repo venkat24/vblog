@@ -80,39 +80,30 @@
     text-decoration: none;
 }
 
+.post-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.post-content > *:not(.post-photo-wrap) {
+    flex: 0 0 100%;
+}
+
 .post-photo-wrap {
+    flex: 1 1 0;
+    min-width: 0;
     text-align: center;
-    margin: 16px 0;
-}
-
-/* Side-by-side when two images are consecutive */
-.post-photo-wrap:has(+ .post-photo-wrap),
-.post-photo-wrap + .post-photo-wrap {
-    display: inline-block;
-    width: calc(50% - 6px);
-    margin: 16px 0;
-    vertical-align: top;
-}
-
-.post-photo-wrap + .post-photo-wrap {
-    margin-left: 8px;
 }
 
 .post-photo-thumb {
-    max-width: 400px;
-    max-height: 400px;
-    width: auto;
+    width: 100%;
     height: auto;
-    display: inline-block;
-}
-
-.post-photo-wrap:has(+ .post-photo-wrap) .post-photo-thumb,
-.post-photo-wrap + .post-photo-wrap .post-photo-thumb {
-    max-width: 100%;
+    display: block;
 }
 
 .post-photo-link {
-    display: inline-block;
+    display: block;
 }
 
 /* Hide italic captions that follow post images */
