@@ -5,6 +5,3 @@ type = "gallery"
 description = ""
 featured = false
 +++
-
-Hiker pausing on the trail with a misty glacier visible beyond the trees.
-

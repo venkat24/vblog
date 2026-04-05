@@ -1,20 +1,63 @@
 {{ define "main" }}
 <h1>{{ .Page.Title }}</h1>
 
+{{/* Prev/Next navigation */}}
+{{ $parent := .Parent }}
+{{ $pages := $parent.Pages }}
+{{ $currentIndex := -1 }}
+{{ range $i, $p := $pages }}
+    {{ if eq $p.File.ContentBaseName $.File.ContentBaseName }}
+        {{ $currentIndex = $i }}
+    {{ end }}
+{{ end }}
+
+<div class="photo-container">
 {{ if and (isset .Params "image") .Params.image }}
     {{ $image := .Page.Resources.GetMatch .Params.image }}
     {{ with $image }}
         {{ $medium := .Resize "1000x" }}
         {{ $large := .Resize "1600x" }}
         {{ $full := .Resize "2400x" }}
+        <a href="{{ .RelPermalink }}" target="_blank" class="gallery-image-link">
         <img src="{{ $large.RelPermalink }}"
              srcset="{{ $medium.RelPermalink }} 1000w, {{ $large.RelPermalink }} 1600w, {{ $full.RelPermalink }} 2400w"
              sizes="(max-width: 1000px) 1000px, (max-width: 1600px) 1600px, 2400px"
              alt="{{ .Title }}" class="img-responsive gallery-image">
+        </a>
     {{end}}
 {{ end }}
 
+<div class="photo-nav">
+    {{ if gt $currentIndex 0 }}
+        {{ $prev := index $pages (sub $currentIndex 1) }}
+        <a href="{{ $prev.Permalink }}" class="photo-nav-btn photo-nav-prev">&larr; Prev</a>
+    {{ else }}
+        <span class="photo-nav-btn photo-nav-prev photo-nav-disabled">&larr; Prev</span>
+    {{ end }}
+
+    <a href="{{ $parent.Permalink }}" class="photo-nav-btn photo-nav-center">Back to Album</a>
+
+    {{ if lt (add $currentIndex 1) (len $pages) }}
+        {{ $next := index $pages (add $currentIndex 1) }}
+        <a href="{{ $next.Permalink }}" class="photo-nav-btn photo-nav-next">Next &rarr;</a>
+    {{ else }}
+        <span class="photo-nav-btn photo-nav-next photo-nav-disabled">Next &rarr;</span>
+    {{ end }}
+</div>
+</div>
+
 {{ .Content }}
+
+{{/* Link to related blog post */}}
+{{ $albumName := $parent.File.ContentBaseName }}
+{{ range site.RegularPages }}
+    {{ if eq (.Params.album | default "") $albumName }}
+        <div class="photo-blog-link">
+            <a href="{{ .Permalink }}">Read the blog post: {{ .Title }}</a>
+        </div>
+    {{ end }}
+{{ end }}
+
 {{ template "_internal/disqus.html" . }}
 
 {{ end }}

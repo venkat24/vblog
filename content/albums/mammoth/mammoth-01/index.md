@@ -5,5 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-Mammoth gondola gliding high above the slopes with vast desert views beyond.

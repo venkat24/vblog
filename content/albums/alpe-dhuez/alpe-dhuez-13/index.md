@@ -5,5 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-Packed inside the Oz Vaujany gondola, helmets and goggles filling the frame.

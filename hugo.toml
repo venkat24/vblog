@@ -1,13 +1,13 @@
 baseURL = 'https://winecat.blog'
 languageCode = 'en-us'
-title = 'log4v'
+title = 'winecat.blog'
 theme = "hugo-theme-console"
 
 [[module.imports]]
   path = "github.com/mrmierzejewski/hugo-theme-console"
 
 [params]
-  description = "Your site description"
+  description = "WineCat's Photo Blog"
   animateStyle = "animate-fade-up" # Animation style for content
 
 [[params.navlinks]]

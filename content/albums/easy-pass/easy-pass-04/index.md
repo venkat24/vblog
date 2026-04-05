@@ -5,6 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-A curious pika perched on a sunlit boulder in the alpine meadow.
-

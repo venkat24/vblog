@@ -1,0 +1,53 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+
+{{ .Date | time.Format ":date_medium" }}
+{{ with .Params.linkedin }}
+    // <a href="{{ . }}">Linkedin</a>
+{{ end }}
+{{ with .Params.twitter }}
+    // <a href="{{ . }}">Twitter</a>
+{{ end }}
+<br/><br/>
+
+{{ if .Params.album }}
+    {{ $albumPath := printf "albums/%s" .Params.album }}
+    {{ $album := .Site.GetPage $albumPath }}
+    {{ if $album }}
+        <div class="album-preview-container" style="background: var(--secondary-bg-color, #1a1a1a); padding: 20px; border-radius: 4px; margin-bottom: 30px; border: 1px solid #333;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h4 style="margin: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; color: #888;">Album Preview: <span style="color: #fff;">{{ $album.Title }}</span></h4>
+                <a href="{{ $album.Permalink }}" style="font-size: 0.8em; text-decoration: none; color: #aaa;">[ VIEW FULL ALBUM ]</a>
+            </div>
+            
+            <div class="preview-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+                {{ $pages := $album.Pages }}
+                {{ range seq 15 }}
+                    {{ $index := sub . 1 }}
+                    {{ if lt $index (len $pages) }}
+                        {{ $p := index $pages $index }}
+                        {{ if and (isset $p.Params "image") $p.Params.image }}
+                            {{ $image := $p.Page.Resources.GetMatch $p.Params.image }}
+                            {{ with $image }}
+                                {{ $thumb := .Fill "250x250" }}
+                                <a href="{{ $p.Permalink }}" title="{{ $p.Title }}" style="display: block; line-height: 0; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="{{ $thumb.RelPermalink }}" 
+                                         alt="{{ $p.Title }}" 
+                                         style="width: 100%; height: auto; border-radius: 2px; border: 1px solid #444; filter: grayscale(20%);">
+                                </a>
+                            {{ end }}
+                        {{ end }}
+                    {{ else }}
+                        <div style="aspect-ratio: 1/1; background: rgba(255,255,255,0.03); border: 1px dashed #333; border-radius: 2px; display: flex; align-items: center; justify-content: center;">
+                            <span style="color: #222; font-size: 2em;">+</span>
+                        </div>
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+    {{ end }}
+{{ end }}
+
+{{ .Content }}
+{{ template "_internal/disqus.html" . }}
+{{ end }}

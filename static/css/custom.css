@@ -1,6 +1,7 @@
 .image-grid {
+    display: block !important;
     column-count: 3;
-    column-gap: 6px;
+    column-gap: 8px;
     line-height: 0;
     height: auto;
     overflow: hidden;
@@ -8,7 +9,7 @@
 
 .image-grid a {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     break-inside: avoid;
 }
 
@@ -16,17 +17,130 @@
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 2px;
+    border-radius: 0;
+}
+
+.album-grid {
+    display: grid !important;
+    column-count: unset;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    line-height: 0;
+}
+
+.album-grid a {
+    display: block;
+    margin-bottom: 0;
+}
+
+.album-title {
+    line-height: normal;
+    padding: 6px 0;
+    display: block;
+}
+
+.gallery-image {
+    max-height: 85vh;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.photo-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.photo-nav-btn {
+    padding: 4px 0;
+    text-decoration: none;
+}
+
+.photo-nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.photo-nav-disabled {
+    opacity: 0.3;
+}
+
+.photo-blog-link {
+    margin-top: 24px;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+.photo-blog-link a {
+    text-decoration: none;
+}
+
+.post-photo-wrap {
+    text-align: center;
+    margin: 16px 0;
+}
+
+/* Side-by-side when two images are consecutive */
+.post-photo-wrap:has(+ .post-photo-wrap),
+.post-photo-wrap + .post-photo-wrap {
+    display: inline-block;
+    width: calc(50% - 6px);
+    margin: 16px 0;
+    vertical-align: top;
+}
+
+.post-photo-wrap + .post-photo-wrap {
+    margin-left: 8px;
+}
+
+.post-photo-thumb {
+    max-width: 400px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+.post-photo-wrap:has(+ .post-photo-wrap) .post-photo-thumb,
+.post-photo-wrap + .post-photo-wrap .post-photo-thumb {
+    max-width: 100%;
+}
+
+.post-photo-link {
+    display: inline-block;
+}
+
+/* Hide italic captions that follow post images */
+.post-photo-wrap + em {
+    display: none;
+}
+
+.posts-list .post {
+    margin-bottom: 4px;
 }
 
 @media (max-width: 768px) {
     .image-grid {
         column-count: 2;
     }
+    .album-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .terminal-menu ul {
+        justify-content: flex-end !important;
+    }
 }
 
 @media (max-width: 480px) {
     .image-grid {
         column-count: 1;
+    }
+    .album-grid {
+        grid-template-columns: 1fr;
     }
 }

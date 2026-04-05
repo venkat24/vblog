@@ -1,0 +1,21 @@
+{{/* Detect album photo pattern: /albums/{album}/{photo}/{photo}.jpg */}}
+{{ $src := .Destination }}
+{{ $parts := split $src "/" }}
+{{ $isAlbumPhoto := false }}
+{{ $photoPageURL := "" }}
+{{ if ge (len $parts) 4 }}
+    {{ if eq (index $parts 1) "albums" }}
+        {{ $isAlbumPhoto = true }}
+        {{ $photoPageURL = printf "/%s/%s/%s/" (index $parts 1) (index $parts 2) (index $parts 3) }}
+    {{ end }}
+{{ end }}
+
+{{ if $isAlbumPhoto }}
+<div class="post-photo-wrap">
+    <a href="{{ $photoPageURL }}" class="post-photo-link">
+        <img src="{{ $src }}" alt="{{ .Text }}" class="post-photo-thumb">
+    </a>
+</div>
+{{ else }}
+<img src="{{ $src }}" alt="{{ .Text }}">
+{{ end }}

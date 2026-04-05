@@ -5,5 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-Wide shot of the scenery still early in the climb, as the saddle of easy pass is seen in the distance.

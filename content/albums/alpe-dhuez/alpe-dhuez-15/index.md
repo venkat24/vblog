@@ -5,5 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-Rustic cable car tower standing alone at the summit against clear skies.

@@ -5,5 +5,3 @@ type = "gallery"
 description = ""
 featured = true
 +++
-
-Snowboarder walking through the steel framework of a POMA lift station.
