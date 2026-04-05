@@ -1,6 +1,6 @@
-baseURL = 'https://venkatraman.dev'
+baseURL = 'https://winecat.blog'
 languageCode = 'en-us'
-title = 'Globetrottaux'
+title = 'log4v'
 theme = "hugo-theme-console"
 
 [[module.imports]]
@@ -9,10 +9,6 @@ theme = "hugo-theme-console"
 [params]
   description = "Your site description"
   animateStyle = "animate-fade-up" # Animation style for content
-
-[[params.navlinks]]
-  name = "About"
-  url = "/about/"
 
 [[params.navlinks]]
   name = "Posts"
