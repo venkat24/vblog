@@ -1,4 +1,4 @@
 +++
 title = "Seattle"
-image = "DSCF1928/DSCF1928.jpg"
+image = "seattle-11/seattle-11.jpg"
 +++

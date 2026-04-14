@@ -1,6 +1,6 @@
 baseURL = 'https://winecat.blog'
 languageCode = 'en-us'
-title = 'winecat.blog'
+title = 'venkatraman.blog'
 theme = "hugo-theme-console"
 
 [[module.imports]]

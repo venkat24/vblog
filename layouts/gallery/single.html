@@ -3,7 +3,7 @@
 
 {{/* Prev/Next navigation */}}
 {{ $parent := .Parent }}
-{{ $pages := $parent.Pages }}
+{{ $pages := $parent.Pages.ByWeight }}
 {{ $currentIndex := -1 }}
 {{ range $i, $p := $pages }}
     {{ if eq $p.File.ContentBaseName $.File.ContentBaseName }}
@@ -59,5 +59,17 @@
 {{ end }}
 
 {{ template "_internal/disqus.html" . }}
+
+<script>
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.photo-nav-prev[href]');
+        if (prev) prev.click();
+    } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.photo-nav-next[href]');
+        if (next) next.click();
+    }
+});
+</script>
 
 {{ end }}

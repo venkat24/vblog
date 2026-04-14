@@ -3,5 +3,6 @@ title = "seattle-06"
 image = "seattle-06.jpg"
 type = "gallery"
 description = ""
-featured = true
+weight = 11
+size = "half"
 +++

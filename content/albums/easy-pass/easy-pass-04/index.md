@@ -4,4 +4,6 @@ image = "easy-pass-04.jpg"
 type = "gallery"
 description = ""
 featured = true
+weight = 10
+size = "full"
 +++

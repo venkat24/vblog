@@ -1,4 +1,4 @@
 +++
 title = "Alpe d'Huez"
-image = "DSCF6157/DSCF6157.jpg"
+image = "alpe-dhuez-15/alpe-dhuez-15.jpg"
 +++

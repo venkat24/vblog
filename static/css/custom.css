@@ -1,6 +1,21 @@
+/* Force light mode regardless of system preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #fff;
+        --font-color: #151515;
+        --invert-font-color: #fff;
+        --primary-color: #1a95e0;
+        --secondary-color: #727578;
+        --error-color: #d20962;
+        --progress-bar-background: #727578;
+        --progress-bar-fill: #151515;
+        --code-bg-color: #e8eff2;
+    }
+}
+
 .image-grid {
     display: block !important;
-    column-count: 3;
+    column-count: 2;
     column-gap: 8px;
     line-height: 0;
     height: auto;
@@ -111,11 +126,126 @@
     display: none;
 }
 
+/* Album flex grid */
+.album-flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.album-item {
+    display: block;
+    line-height: 0;
+}
+
+.album-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.album-item--full {
+    flex: 0 0 100%;
+}
+
+.album-item--half {
+    flex: 0 0 calc(50% - 4px);
+}
+
+.album-item--third {
+    flex: 0 0 calc(33.333% - 5.333px);
+}
+
+.footer .footer-inner {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.footer .footer-copyright {
+    margin-left: auto;
+}
+
+.posts-list {
+    padding-left: 0;
+}
+
 .posts-list .post {
     margin-bottom: 4px;
 }
 
+.posts-list .post:has(.date) {
+    position: relative;
+    padding-left: 130px;
+}
+
+.posts-list .post .date {
+    position: absolute;
+    left: 0;
+    width: 130px;
+}
+
+/* Album preview on post pages */
+.album-preview {
+    margin-bottom: 24px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.album-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.album-preview-title {
+    font-weight: bold;
+}
+
+.album-preview-link {
+    font-size: 0.85em;
+    text-decoration: none;
+}
+
+.album-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 6px;
+    overflow: hidden;
+}
+
+.album-preview-thumb {
+    display: block;
+    line-height: 0;
+}
+
+.album-preview-thumb:nth-child(n+13) {
+    display: none;
+}
+
+.album-preview-thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
 @media (max-width: 768px) {
+    .album-preview-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .album-preview-thumb:nth-child(n+7) {
+        display: none;
+    }
     .image-grid {
         column-count: 2;
     }
@@ -133,5 +263,9 @@
     }
     .album-grid {
         grid-template-columns: 1fr;
+    }
+    .album-item--half,
+    .album-item--third {
+        flex: 0 0 100%;
     }
 }

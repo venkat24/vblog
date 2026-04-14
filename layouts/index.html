@@ -1,17 +1,5 @@
 {{ define "main" }}
 
-<h1>Latest posts</h1>
-
-<div class="posts-list">
-{{- with .Site.GetPage "/posts" -}}
-    {{- range first 3 (sort .Pages "Date" "desc" (where .Pages ".Params.private" "!=" true))}}
-        <div class="post">
-            {{ .Date | time.Format ":date_medium" }} — <a href="{{ .Permalink }}" title="{{ .Title }}">{{ .Title }}</a>
-        </div>
-    {{- end -}}
-{{- end -}}
-</div>
-
 <h1>Latest photos</h1>
 
 
