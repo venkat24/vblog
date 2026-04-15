@@ -221,8 +221,7 @@
 
 .album-preview-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(2, auto);
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
     gap: 6px;
     overflow: hidden;
 }

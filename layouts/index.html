@@ -28,13 +28,13 @@
     {{- $page := . -}}
     {{- $image := .Page.Resources.GetMatch .Params.image -}}
     {{- with $image -}}
-        {{- $small := .Resize "400x" -}}
-        {{- $medium := .Resize "800x" -}}
-        {{- $large := .Resize "1200x" }}
+        {{- $small := .Resize "300x" -}}
+        {{- $medium := .Resize "600x" -}}
+        {{- $large := .Resize "900x" }}
         <a href="{{ $page.Permalink }}" title="{{ $page.Title }}">
             <img src="{{ $medium.RelPermalink }}"
-                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
-                 sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                 srcset="{{ $small.RelPermalink }} 300w, {{ $medium.RelPermalink }} 600w, {{ $large.RelPermalink }} 900w"
+                 sizes="(max-width: 400px) 300px, (max-width: 800px) 600px, 900px"
                  alt="{{ $page.Title }}" class="img-responsive">
         </a>
     {{- end -}}
@@ -45,13 +45,13 @@
     {{- $page := . -}}
     {{- $image := .Page.Resources.GetMatch .Params.image -}}
     {{- with $image -}}
-        {{- $small := .Resize "400x" -}}
-        {{- $medium := .Resize "800x" -}}
-        {{- $large := .Resize "1200x" }}
+        {{- $small := .Resize "300x" -}}
+        {{- $medium := .Resize "600x" -}}
+        {{- $large := .Resize "900x" }}
         <a href="{{ $page.Permalink }}" title="{{ $page.Title }}">
             <img src="{{ $medium.RelPermalink }}"
-                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
-                 sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                 srcset="{{ $small.RelPermalink }} 300w, {{ $medium.RelPermalink }} 600w, {{ $large.RelPermalink }} 900w"
+                 sizes="(max-width: 400px) 300px, (max-width: 800px) 600px, 900px"
                  alt="{{ $page.Title }}" class="img-responsive">
         </a>
     {{- end -}}

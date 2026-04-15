@@ -19,11 +19,11 @@
                     {{ if eq .File.ContentBaseName $pageDir }}
                         {{ $image := .Page.Resources.GetMatch $fileName }}
                         {{ with $image }}
-                            {{ $small := .Fill "400x267 Center" }}
-                            {{ $medium := .Fill "800x533 Center" }}
+                            {{ $small := .Fill "300x200 Center" }}
+                            {{ $medium := .Fill "600x400 Center" }}
                             <img src="{{ $medium.RelPermalink }}"
-                                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w"
-                                 sizes="(max-width: 400px) 400px, 800px"
+                                 srcset="{{ $small.RelPermalink }} 300w, {{ $medium.RelPermalink }} 600w"
+                                 sizes="(max-width: 400px) 300px, 600px"
                                  alt="{{ $album.Title }}" class="img-responsive">
                             {{ $coverFound = true }}
                         {{ end }}
@@ -35,11 +35,11 @@
             {{ range first 1 .Pages }}
                 {{ $image := .Page.Resources.GetMatch .Params.image }}
                 {{ with $image }}
-                    {{ $small := .Fill "400x267 Center" }}
-                    {{ $medium := .Fill "800x533 Center" }}
+                    {{ $small := .Fill "300x200 Center" }}
+                    {{ $medium := .Fill "600x400 Center" }}
                     <img src="{{ $medium.RelPermalink }}"
-                         srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w"
-                         sizes="(max-width: 400px) 400px, 800px"
+                         srcset="{{ $small.RelPermalink }} 300w, {{ $medium.RelPermalink }} 600w"
+                         sizes="(max-width: 400px) 300px, 600px"
                          alt="{{ .Title }}" class="img-responsive">
                 {{ end }}
             {{ end }}
@@ -57,12 +57,12 @@
             <a href="{{ .Permalink }}" title="{{ .Title }}" class="album-item album-item--{{ $size }}">
             {{ $image := .Page.Resources.GetMatch .Params.image }}
             {{ with $image }}
-                {{ $medium := .Resize "1200x" }}
-                {{ $large := .Resize "2400x" }}
-                {{ $xlarge := .Resize "3600x" }}
+                {{ $medium := .Resize "600x" }}
+                {{ $large := .Resize "1200x" }}
+                {{ $xlarge := .Resize "1800x" }}
                 <img src="{{ $large.RelPermalink }}"
-                     srcset="{{ $medium.RelPermalink }} 1200w, {{ $large.RelPermalink }} 2400w, {{ $xlarge.RelPermalink }} 3600w"
-                     sizes="(max-width: 800px) 1200px, (max-width: 1400px) 2400px, 3600px"
+                     srcset="{{ $medium.RelPermalink }} 600w, {{ $large.RelPermalink }} 1200w, {{ $xlarge.RelPermalink }} 1800w"
+                     sizes="(max-width: 800px) 600px, (max-width: 1400px) 1200px, 1800px"
                      alt="{{ .Title }}" class="img-responsive">
             {{ end }}
             </a>
