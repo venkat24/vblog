@@ -7,7 +7,7 @@ theme = "hugo-theme-console"
   path = "github.com/mrmierzejewski/hugo-theme-console"
 
 [params]
-  description = "WineCat's Photo Blog"
+  description = "Venkatraman's Photo Blog"
   animateStyle = "animate-fade-up" # Animation style for content
 
 [[params.navlinks]]

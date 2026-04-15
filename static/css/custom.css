@@ -14,18 +14,22 @@
 }
 
 .image-grid {
-    display: block !important;
-    column-count: 2;
-    column-gap: 8px;
+    display: flex !important;
+    gap: 8px;
     line-height: 0;
     height: auto;
     overflow: hidden;
 }
 
+.image-grid-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .image-grid a {
     display: block;
-    margin-bottom: 8px;
-    break-inside: avoid;
 }
 
 .image-grid img {
@@ -246,9 +250,6 @@
     .album-preview-thumb:nth-child(n+7) {
         display: none;
     }
-    .image-grid {
-        column-count: 2;
-    }
     .album-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -259,7 +260,7 @@
 
 @media (max-width: 480px) {
     .image-grid {
-        column-count: 1;
+        flex-direction: column;
     }
     .album-grid {
         grid-template-columns: 1fr;

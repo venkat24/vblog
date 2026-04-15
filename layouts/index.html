@@ -3,7 +3,6 @@
 <h1>Latest photos</h1>
 
 
-<div class="image-grid">
 {{- $featured := slice -}}
 {{- $albums := .Site.GetPage "/albums" -}}
 {{- range $albums.Sections -}}
@@ -13,7 +12,19 @@
         {{- end -}}
     {{- end -}}
 {{- end -}}
-{{- range shuffle $featured -}}
+{{- $sorted := sort $featured ".Params.exifDate" "desc" -}}
+{{- $col1 := slice -}}
+{{- $col2 := slice -}}
+{{- range $i, $p := $sorted -}}
+    {{- if eq (mod $i 2) 0 -}}
+        {{- $col1 = $col1 | append $p -}}
+    {{- else -}}
+        {{- $col2 = $col2 | append $p -}}
+    {{- end -}}
+{{- end -}}
+<div class="image-grid">
+<div class="image-grid-col">
+{{- range $col1 -}}
     {{- $page := . -}}
     {{- $image := .Page.Resources.GetMatch .Params.image -}}
     {{- with $image -}}
@@ -28,6 +39,24 @@
         </a>
     {{- end -}}
 {{- end -}}
+</div>
+<div class="image-grid-col">
+{{- range $col2 -}}
+    {{- $page := . -}}
+    {{- $image := .Page.Resources.GetMatch .Params.image -}}
+    {{- with $image -}}
+        {{- $small := .Resize "400x" -}}
+        {{- $medium := .Resize "800x" -}}
+        {{- $large := .Resize "1200x" }}
+        <a href="{{ $page.Permalink }}" title="{{ $page.Title }}">
+            <img src="{{ $medium.RelPermalink }}"
+                 srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w"
+                 sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+                 alt="{{ $page.Title }}" class="img-responsive">
+        </a>
+    {{- end -}}
+{{- end -}}
+</div>
 </div>
 
 {{ end }}
