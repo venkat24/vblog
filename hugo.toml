@@ -1,4 +1,4 @@
-baseURL = 'https://winecat.blog'
+baseURL = 'https://venkatraman.blog'
 languageCode = 'en-us'
 title = 'venkatraman.blog'
 theme = "hugo-theme-console"
