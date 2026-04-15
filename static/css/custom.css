@@ -250,6 +250,15 @@
     .album-preview-thumb:nth-child(n+7) {
         display: none;
     }
+    .posts-list .post:has(.date) {
+        padding-left: 0;
+    }
+    .posts-list .post .date {
+        display: block;
+        position: static;
+        width: auto;
+        margin-bottom: 4px;
+    }
     .album-grid {
         grid-template-columns: repeat(2, 1fr);
     }
