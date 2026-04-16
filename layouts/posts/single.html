@@ -23,10 +23,11 @@
                 {{- $pages := $album.Pages.ByWeight -}}
                 {{- range $pages -}}
                     {{- if and (isset .Params "image") .Params.image -}}
+                        {{ $photoPage := . }}
                         {{ $image := .Page.Resources.GetMatch .Params.image }}
                         {{- with $image -}}
                             {{ $thumb := .Fill "250x250" }}
-                            <a href="{{ $album.Permalink }}" class="album-preview-thumb">
+                            <a href="{{ $photoPage.Permalink }}" class="album-preview-thumb">
                                 <img src="{{ $thumb.RelPermalink }}" alt="{{ .Title }}">
                             </a>
                         {{- end -}}
