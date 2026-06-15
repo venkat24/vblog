@@ -66,6 +66,23 @@
     margin: 0 auto;
 }
 
+.photo-exif {
+    text-align: center;
+    margin: 10px 0 2px;
+    color: var(--secondary-color);
+    font-size: 0.85em;
+}
+
+.photo-exif-specs {
+    display: block;
+}
+
+.photo-exif-camera {
+    display: block;
+    margin-top: 2px;
+    opacity: 0.75;
+}
+
 .photo-nav {
     display: flex;
     justify-content: space-between;

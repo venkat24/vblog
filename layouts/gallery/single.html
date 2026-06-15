@@ -27,19 +27,32 @@
     {{end}}
 {{ end }}
 
+{{ with .Params.exif }}
+<div class="photo-exif">
+    {{ $parts := slice }}
+    {{ with .shutter }}{{ $parts = $parts | append (printf "%ss" .) }}{{ end }}
+    {{ with .aperture }}{{ $parts = $parts | append . }}{{ end }}
+    {{ with .iso }}{{ $parts = $parts | append (printf "ISO %v" .) }}{{ end }}
+    {{ with .focalLength }}{{ $parts = $parts | append . }}{{ end }}
+    {{ with .film }}{{ $parts = $parts | append . }}{{ end }}
+    <span class="photo-exif-specs">{{ delimit $parts " · " }}</span>
+    {{ with .camera }}<span class="photo-exif-camera">{{ . }}</span>{{ end }}
+</div>
+{{ end }}
+
 <div class="photo-nav">
     {{ if gt $currentIndex 0 }}
         {{ $prev := index $pages (sub $currentIndex 1) }}
-        <a href="{{ $prev.Permalink }}" class="photo-nav-btn photo-nav-prev">&larr; Prev</a>
+        <a href="{{ $prev.RelPermalink }}" class="photo-nav-btn photo-nav-prev">&larr; Prev</a>
     {{ else }}
         <span class="photo-nav-btn photo-nav-prev photo-nav-disabled">&larr; Prev</span>
     {{ end }}
 
-    <a href="{{ $parent.Permalink }}" class="photo-nav-btn photo-nav-center">Go to Album</a>
+    <a href="{{ $parent.RelPermalink }}" class="photo-nav-btn photo-nav-center">Go to Album</a>
 
     {{ if lt (add $currentIndex 1) (len $pages) }}
         {{ $next := index $pages (add $currentIndex 1) }}
-        <a href="{{ $next.Permalink }}" class="photo-nav-btn photo-nav-next">Next &rarr;</a>
+        <a href="{{ $next.RelPermalink }}" class="photo-nav-btn photo-nav-next">Next &rarr;</a>
     {{ else }}
         <span class="photo-nav-btn photo-nav-next photo-nav-disabled">Next &rarr;</span>
     {{ end }}
@@ -53,7 +66,7 @@
 {{ range site.RegularPages }}
     {{ if eq (.Params.album | default "") $albumName }}
         <div class="photo-blog-link">
-            <a href="{{ .Permalink }}">Read the blog post: {{ .Title }}</a>
+            <a href="{{ .RelPermalink }}">Read the blog post: {{ .Title }}</a>
         </div>
     {{ end }}
 {{ end }}

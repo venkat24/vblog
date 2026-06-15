@@ -5,4 +5,8 @@ type = "gallery"
 description = ""
 weight = 3
 size = "half"
+
+[exif]
+focalLength = "35mm"
+film = "Kodak Gold 200"
 +++

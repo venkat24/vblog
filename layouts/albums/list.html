@@ -8,7 +8,7 @@
     {{ range .Sections }}
         {{ $album := . }}
         {{ $coverFound := false }}
-        <a href="{{ .Permalink }}" title="{{ .Title }}">
+        <a href="{{ .RelPermalink }}" title="{{ .Title }}">
         {{ with .Params.image }}
             {{/* image param is like "DSCF6157/DSCF6157.jpg" — extract the page dir and filename */}}
             {{ $parts := split . "/" }}
@@ -54,7 +54,7 @@
     {{ range .Pages.ByWeight }}
         {{ if and (isset .Params "image") .Params.image }}
             {{ $size := .Params.size | default "full" }}
-            <a href="{{ .Permalink }}" title="{{ .Title }}" class="album-item album-item--{{ $size }}">
+            <a href="{{ .RelPermalink }}" title="{{ .Title }}" class="album-item album-item--{{ $size }}">
             {{ $image := .Page.Resources.GetMatch .Params.image }}
             {{ with $image }}
                 {{ $medium := .Resize "600x" }}

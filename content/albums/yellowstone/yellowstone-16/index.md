@@ -6,4 +6,8 @@ description = ""
 exifDate = 2025-08-19T13:10:00
 weight = 16
 size = "full"
+
+[exif]
+focalLength = "35mm"
+film = "Kodak Gold 200"
 +++

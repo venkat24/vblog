@@ -17,7 +17,7 @@
         <div class="album-preview">
             <div class="album-preview-header">
                 <span class="album-preview-title">{{ $album.Title }}</span>
-                <a href="{{ $album.Permalink }}" class="album-preview-link">View full album &rarr;</a>
+                <a href="{{ $album.RelPermalink }}" class="album-preview-link">View full album &rarr;</a>
             </div>
             <div class="album-preview-grid">
                 {{- $pages := $album.Pages.ByWeight -}}
@@ -27,7 +27,7 @@
                         {{ $image := .Page.Resources.GetMatch .Params.image }}
                         {{- with $image -}}
                             {{ $thumb := .Fill "250x250" }}
-                            <a href="{{ $photoPage.Permalink }}" class="album-preview-thumb">
+                            <a href="{{ $photoPage.RelPermalink }}" class="album-preview-thumb">
                                 <img src="{{ $thumb.RelPermalink }}" alt="{{ .Title }}">
                             </a>
                         {{- end -}}

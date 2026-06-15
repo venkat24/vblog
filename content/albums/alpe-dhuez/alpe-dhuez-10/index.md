@@ -7,4 +7,11 @@ featured = true
 exifDate = 2026-03-17T19:47:25
 weight = 8
 size = "half"
+
+[exif]
+camera = "Fujifilm X-T50"
+shutter = "1/450"
+aperture = "f/8"
+iso = 250
+focalLength = "23mm"
 +++

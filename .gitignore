@@ -1,3 +1,6 @@
 public/
 resources/_gen/
-.claude/
+.claude/*
+!.claude/skills/
+__pycache__/
+*.pyc

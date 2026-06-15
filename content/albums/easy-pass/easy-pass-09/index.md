@@ -5,4 +5,11 @@ type = "gallery"
 description = ""
 weight = 16
 size = "third"
+
+[exif]
+camera = "Fujifilm X-T20"
+shutter = "1/18"
+aperture = "f/5.6"
+iso = 400
+focalLength = "26mm"
 +++

@@ -9,7 +9,7 @@
         <div class="post">
             <p>
                 <div class="date">{{ .PublishDate.Format "Jan. 2, 2006" }}</div>
-                <h1><a href="{{ .Permalink }}" title="{{ .Title }}">{{ .Title }}</a></h1>
+                <h1><a href="{{ .RelPermalink }}" title="{{ .Title }}">{{ .Title }}</a></h1>
                 {{ $plain := .Plain | htmlUnescape }}{{ $words := split $plain " " }}{{ $limited := first 30 $words }}{{ delimit $limited " " }}{{ if gt (len $words) 30 }}...{{ end }}
             </p>
         </div>
