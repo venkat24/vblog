@@ -1,11 +1,12 @@
 +++
-title = "seattle-19"
-image = "seattle-19.jpg"
+title = "pnw-03"
+image = "pnw-03.jpg"
 type = "gallery"
 description = ""
 featured = true
-weight = 19
+weight = 3
 size = "full"
+exifDate = 2026-05-22T18:16:36
 
 [exif]
 camera = "Fujifilm X-T50"

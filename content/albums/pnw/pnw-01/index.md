@@ -1,10 +1,11 @@
 +++
-title = "seattle-17"
-image = "seattle-17.jpg"
+title = "pnw-01"
+image = "pnw-01.jpg"
 type = "gallery"
 description = ""
-weight = 17
+weight = 1
 size = "half"
+exifDate = 2026-05-06T08:14:42
 
 [exif]
 camera = "Fujifilm X-T50"

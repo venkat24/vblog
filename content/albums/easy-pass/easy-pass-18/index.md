@@ -5,6 +5,7 @@ type = "gallery"
 description = ""
 weight = 17
 size = "third"
+exifDate = 2026-03-22T18:10:15
 
 [exif]
 focalLength = "35mm"

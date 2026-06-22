@@ -5,6 +5,7 @@ type = "gallery"
 description = ""
 weight = 9
 size = "half"
+exifDate = 2025-08-31T09:19:52
 
 [exif]
 camera = "Fujifilm X-T20"

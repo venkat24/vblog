@@ -70,7 +70,11 @@ Set `featured = true` to surface the photo on the homepage's "Latest photos" gri
 
    You can pass several photo directories (or image files) at once. The extractor
    records whatever EXIF the image actually contains and is safe to re-run
-   (it replaces any existing `[exif]` table).
+   (it replaces any existing `[exif]` table). It also sets a top-level
+   `exifDate` from the photo's capture time — or, if the image has no EXIF date,
+   from the file's creation date in the repo. `exifDate` drives the
+   newest-first ordering of the homepage "Latest photos" grid, so featured
+   photos must have it.
 
 6. **Verify** by starting the dev server (`hugo server -D`, or the `hugo` launch
    config) and opening the photo page — the specs appear beneath the image.
@@ -83,3 +87,6 @@ Set `featured = true` to surface the photo on the homepage's "Latest photos" gri
 - The one-time `scripts/backfill_exif.py` (which *does* encode project-specific
   fallbacks for film scans and manual lenses) is for the original library import
   only — do not use it for routine imports.
+- `scripts/backfill_dates.py` fills a missing `exifDate` on existing photos
+  (EXIF date, else file creation date) without touching the `[exif]` table.
+  Run it if older photos are sorting to the bottom of the homepage grid.

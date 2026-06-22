@@ -21,12 +21,26 @@ import re
 import shutil
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 EXIFTOOL = shutil.which("exiftool")
 
-# Tags we pull off the image, in the order we render them.
-TAGS = ["ExposureTime", "FNumber", "ISO", "FocalLength", "Make", "Model"]
+# Tags we pull off the image. The capture-date tags are tried in order.
+TAGS = [
+    "ExposureTime",
+    "FNumber",
+    "ISO",
+    "FocalLength",
+    "Make",
+    "Model",
+    "DateTimeOriginal",
+    "CreateDate",
+    "ModifyDate",
+]
+
+# EXIF date tags tried in priority order when resolving capture time.
+DATE_TAGS = ["DateTimeOriginal", "CreateDate", "ModifyDate"]
 
 
 def run_exiftool(image: Path) -> dict:
@@ -76,9 +90,42 @@ def format_aperture(value) -> str | None:
     return f"f/{text}"
 
 
-def extract_exif(image: Path) -> dict:
+def format_exif_datetime(value) -> str | None:
+    """'2025:12:29 15:10:07' -> '2025-12-29T15:10:07' (TOML datetime)."""
+    if not value:
+        return None
+    try:
+        dt = datetime.strptime(str(value).strip(), "%Y:%m:%d %H:%M:%S")
+    except (ValueError, TypeError):
+        return None
+    return dt.strftime("%Y-%m-%dT%H:%M:%S")
+
+
+def extract_date(image: Path, raw: dict | None = None) -> str | None:
+    """Capture date from EXIF, or None if the image carries no usable date."""
+    raw = raw if raw is not None else run_exiftool(image)
+    for tag in DATE_TAGS:
+        formatted = format_exif_datetime(raw.get(tag))
+        if formatted:
+            return formatted
+    return None
+
+
+def file_created_date(path: Path) -> str:
+    """Filesystem creation date (birth time), falling back to mtime."""
+    st = path.stat()
+    ts = getattr(st, "st_birthtime", None) or st.st_mtime
+    return datetime.fromtimestamp(ts).strftime("%Y-%m-%dT%H:%M:%S")
+
+
+def photo_date(image: Path, raw: dict | None = None) -> str:
+    """Best available date: EXIF capture time, else the file's creation date."""
+    return extract_date(image, raw) or file_created_date(image)
+
+
+def extract_exif(image: Path, raw: dict | None = None) -> dict:
     """Return a dict of present EXIF fields. Missing fields are omitted."""
-    raw = run_exiftool(image)
+    raw = raw if raw is not None else run_exiftool(image)
     exif: dict = {}
 
     camera = format_camera(raw.get("Make"), raw.get("Model"))
@@ -118,32 +165,71 @@ def render_exif_block(exif: dict) -> str:
     return "\n".join(lines)
 
 
-def update_frontmatter(index_md: Path, exif: dict) -> None:
-    """Insert or replace the [exif] table in a TOML (+++) front matter file."""
-    text = index_md.read_text()
-    if not text.startswith("+++"):
-        raise ValueError(f"{index_md} does not start with TOML (+++) front matter")
+def _is_key(line: str, key: str) -> bool:
+    """True if a front-matter line assigns the given top-level key."""
+    s = line.strip()
+    return "=" in s and s.split("=", 1)[0].strip() == key
 
-    # Split into: opening fence, front matter body, rest of document.
+
+def _split_frontmatter(text: str):
+    """Return (scalar_lines, exif_table_lines, rest_of_document).
+
+    The [exif] table is always the last block in our front matter, so
+    everything before it is treated as top-level scalar keys.
+    """
+    if not text.startswith("+++"):
+        raise ValueError("file does not start with TOML (+++) front matter")
     parts = text.split("+++", 2)
     body = parts[1]
     rest = parts[2] if len(parts) > 2 else ""
 
-    # Drop any existing [exif] table (always the last table in our files).
-    lines = body.splitlines()
-    cleaned = []
-    for line in lines:
+    scalars, table = [], []
+    in_table = False
+    for line in body.splitlines():
         if line.strip() == "[exif]":
-            break
-        cleaned.append(line)
-    # Trim trailing blank lines from the remaining scalar keys.
-    while cleaned and cleaned[-1].strip() == "":
-        cleaned.pop()
+            in_table = True
+        (table if in_table else scalars).append(line)
+    while scalars and scalars[-1].strip() == "":
+        scalars.pop()
+    while table and table[-1].strip() == "":
+        table.pop()
+    return scalars, table, rest
 
-    new_body = "\n".join(cleaned)
-    block = render_exif_block(exif) if exif else ""
-    if block:
-        new_body = f"{new_body}\n\n{block}\n"
+
+def frontmatter_has(index_md: Path, key: str) -> bool:
+    """True if the front matter already defines a top-level scalar `key`."""
+    scalars, _, _ = _split_frontmatter(index_md.read_text())
+    return any(_is_key(line, key) for line in scalars)
+
+
+def update_frontmatter(
+    index_md: Path,
+    exif: dict | None = None,
+    exif_date: str | None = None,
+    *,
+    set_exif: bool = True,
+    set_date: bool = True,
+) -> None:
+    """Update a TOML (+++) front matter file in place.
+
+    - When `set_exif`, the [exif] table is replaced with `exif` (removed if empty).
+    - When `set_date` and `exif_date` is given, the top-level `exifDate` key is
+      inserted or replaced. `exifDate` stays above the [exif] table so the file
+      remains valid TOML (top-level keys must precede tables).
+    Pass `set_exif=False` to leave an existing [exif] table untouched.
+    """
+    scalars, table, rest = _split_frontmatter(index_md.read_text())
+
+    if set_date and exif_date:
+        scalars = [line for line in scalars if not _is_key(line, "exifDate")]
+        scalars.append(f"exifDate = {exif_date}")
+
+    if set_exif:
+        table = render_exif_block(exif).splitlines() if exif else []
+
+    new_body = "\n".join(scalars)
+    if table:
+        new_body = f"{new_body}\n\n" + "\n".join(table) + "\n"
     else:
         new_body = f"{new_body}\n"
 
@@ -172,10 +258,12 @@ def process(arg: Path) -> dict | None:
         print(f"skip: {arg} (no index.md or image)")
         return None
     index_md, image = resolved
-    exif = extract_exif(image)
-    update_frontmatter(index_md, exif)
+    raw = run_exiftool(image)
+    exif = extract_exif(image, raw)
+    date = photo_date(image, raw)
+    update_frontmatter(index_md, exif, date)
     summary = ", ".join(f"{k}={v}" for k, v in exif.items()) or "(no exif)"
-    print(f"ok: {index_md.parent.name} -> {summary}")
+    print(f"ok: {index_md.parent.name} -> exifDate={date}; {summary}")
     return exif
 
 
