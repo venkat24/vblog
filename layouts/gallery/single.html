@@ -35,7 +35,7 @@
     {{ with .iso }}{{ $parts = $parts | append (printf "ISO %v" .) }}{{ end }}
     {{ with .focalLength }}{{ $parts = $parts | append . }}{{ end }}
     {{ with .film }}{{ $parts = $parts | append . }}{{ end }}
-    <span class="photo-exif-specs">{{ delimit $parts " · " }}</span>
+    {{ with $parts }}<span class="photo-exif-specs">{{ delimit . " · " }}</span>{{ end }}
     {{ with .camera }}<span class="photo-exif-camera">{{ . }}</span>{{ end }}
 </div>
 {{ end }}

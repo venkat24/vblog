@@ -84,6 +84,11 @@ Set `featured = true` to surface the photo on the homepage's "Latest photos" gri
 - `scripts/extract_exif.py` is intentionally generic: it reports only the EXIF
   present in the file and makes **no** assumptions about missing fields. Requires
   `exiftool` on PATH (`brew install exiftool`).
+- **Phone photos** (Apple/Google/Samsung/etc., detected by make or model) only
+  get a `camera` label — shutter, aperture, ISO, and focal length are skipped,
+  since those come from computational photography and don't describe a real
+  exposure. `exifDate` is still recorded. To extend the detection, edit
+  `PHONE_MAKES` / `PHONE_MODEL_HINTS` in `scripts/extract_exif.py`.
 - The one-time `scripts/backfill_exif.py` (which *does* encode project-specific
   fallbacks for film scans and manual lenses) is for the original library import
   only — do not use it for routine imports.

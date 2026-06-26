@@ -9,8 +9,4 @@ exifDate = 2025-08-29T16:22:45
 
 [exif]
 camera = "Google Pixel 8 Pro"
-shutter = "1/5464"
-aperture = "f/1.7"
-iso = 22
-focalLength = "7mm"
 +++

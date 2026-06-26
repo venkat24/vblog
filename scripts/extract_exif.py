@@ -53,6 +53,33 @@ def run_exiftool(image: Path) -> dict:
     return data[0] if data else {}
 
 
+# Manufacturers whose EXIF comes from phones. Their reported exposure values
+# (shutter, aperture, ISO, focal length) are products of computational
+# photography and don't describe a real exposure, so we omit them.
+PHONE_MAKES = {
+    "apple",
+    "google",
+    "samsung",
+    "oneplus",
+    "xiaomi",
+    "huawei",
+    "oppo",
+    "vivo",
+    "motorola",
+    "nokia",
+}
+PHONE_MODEL_HINTS = ("iphone", "ipad", "pixel", "galaxy")
+
+
+def is_phone(make, model) -> bool:
+    """True if the image was shot on a phone (by make or model name)."""
+    make_l = (str(make).strip().lower() if make else "")
+    model_l = (str(model).strip().lower() if model else "")
+    if make_l in PHONE_MAKES:
+        return True
+    return any(hint in model_l for hint in PHONE_MODEL_HINTS)
+
+
 def format_camera(make, model) -> str | None:
     """Combine make/model into a clean label, e.g. 'Fujifilm X-T50'."""
     make = (str(make).strip() if make else "")
@@ -131,6 +158,10 @@ def extract_exif(image: Path, raw: dict | None = None) -> dict:
     camera = format_camera(raw.get("Make"), raw.get("Model"))
     if camera:
         exif["camera"] = camera
+    if is_phone(raw.get("Make"), raw.get("Model")):
+        # Keep only the camera label for phones; skip computational-photography
+        # exposure values that don't describe a real exposure.
+        return exif
     if raw.get("ExposureTime") is not None:
         exif["shutter"] = str(raw["ExposureTime"])
     aperture = format_aperture(raw.get("FNumber"))
