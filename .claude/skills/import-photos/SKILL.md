@@ -91,7 +91,9 @@ Set `featured = true` to surface the photo on the homepage's "Latest photos" gri
   `PHONE_MAKES` / `PHONE_MODEL_HINTS` in `scripts/extract_exif.py`.
 - The one-time `scripts/backfill_exif.py` (which *does* encode project-specific
   fallbacks for film scans and manual lenses) is for the original library import
-  only — do not use it for routine imports.
+  only — do not use it for routine imports. Its film default is the **Olympus XA**
+  (35mm, Kodak Gold 200, no aperture); change `FILM_CAMERA` / `FILM_STOCK` there
+  to adjust.
 - `scripts/backfill_dates.py` fills a missing `exifDate` on existing photos
   (EXIF date, else file creation date) without touching the `[exif]` table.
   Run it if older photos are sorting to the bottom of the homepage grid.

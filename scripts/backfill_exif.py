@@ -10,8 +10,8 @@ Rules (applied per photo):
   1. Full EXIF (aperture present)      -> use the extracted data as-is.
   2. Shutter/ISO present, no aperture  -> shot on a manual 35mm lens; assume
                                           f/8 at 35mm focal length.
-  3. No EXIF at all                     -> shot on film; 35mm focal length,
-                                          Kodak Gold 200, aperture unknown.
+  3. No EXIF at all                     -> shot on film; Olympus XA, 35mm focal
+                                          length, Kodak Gold 200, aperture unknown.
 
 Usage:
     backfill_exif.py [albums-root]   # defaults to content/albums
@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from extract_exif import extract_exif, update_frontmatter  # noqa: E402
 
 FILM_STOCK = "Kodak Gold 200"
+FILM_CAMERA = "Olympus XA"
 DEFAULT_FOCAL = "35mm"
 MANUAL_LENS_APERTURE = "f/8"
 
@@ -45,6 +46,7 @@ def apply_rules(exif: dict) -> dict:
 
     # Case 3: film scan with no usable EXIF.
     return {
+        "camera": FILM_CAMERA,
         "focalLength": DEFAULT_FOCAL,
         "film": FILM_STOCK,
     }
